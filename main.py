@@ -9,6 +9,7 @@ tickRate = pygame.time.Clock()
 level = Level(Lvl_1_map,screen)
 start_time = 0
 t = 0
+
 while 1 and Player !=0  :
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

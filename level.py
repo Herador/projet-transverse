@@ -39,7 +39,7 @@ class Level:
 
 
 
-    def scroll_x(self):
+    """def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.centerx
         p_direction_x = player.direction.x
@@ -59,7 +59,7 @@ class Level:
         else:
             self.shift = 0
             player.speed = 6
-            monstres.vitesse = 3
+            monstres.vitesse = 3"""
 
         #monstre
 
@@ -85,7 +85,7 @@ class Level:
 
     def vertical_collision(self):
         player = self.player.sprite
-        player.apply_gravity()
+        """player.apply_gravity()"""
 
 
         for sprite in self.Tiles.sprites():
@@ -105,7 +105,7 @@ class Level:
         #level
         self.Tiles.update(self.shift)
         self.Tiles.draw(self.display_surface)
-        self.scroll_x()
+        """self.scroll_x()"""
 
         #Capacity
 
