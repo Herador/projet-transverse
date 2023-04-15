@@ -1,6 +1,6 @@
 import pygame
 from Tiles import Tile
-from setting import tile_size, screen_width
+from setting import tile_size, screen_width, screen_height
 from player import Player
 from Enemies import Pate_a_choux
 from Enemies import Enemies
@@ -39,31 +39,68 @@ class Level:
 
 
 
-    """def scroll_x(self):
+    def scroll_x(self):
         player = self.player.sprite
-        player_x = player.rect.centerx
-        p_direction_x = player.direction.x
-        monstres = self.monstres.sprite
+        Position_x = player.rect.centerx
+
+        #print(Position_x)
+        #print(Position_y)
+
+        #monstres = self.monstres.sprite
         #joueur
 
-        if player_x < screen_width / 4 and p_direction_x < 0:
-            self.shift = 6
-            player.speed = 0
-            monstres.vitesse = 3
+        if (Position_x < (screen_width / 2)-10) :
+            self.shift = 10
+            player.rect.x += 10
+            #player.speed = 10
 
-        elif player_x > screen_width - (screen_width / 2) and p_direction_x > 0:
-            self.shift= -6
-            player.speed = 0
-            monstres.vitesse = -3
+
+            #self.shift = player.speed
+            #player.speed = 0
+            #monstres.vitesse = 3
+
+        elif (Position_x > (screen_width - (screen_width / 2)+10)) :
+            self.shift = -10
+            player.rect.x -= 10
+            #player.speed = -10
+
+
+            #self.shift= -player.speed
+            #player.speed = 0
+            #monstres.vitesse = -3
 
         else:
             self.shift = 0
-            player.speed = 6
-            monstres.vitesse = 3"""
+            #player.speed = 0
+            #monstres.vitesse = 3
 
         #monstre
 
+    '''
+    def scroll_y(self):
+        player = self.player.sprite
+        Position_y = player.rect.centery
 
+        if (Position_y < (screen_height / 2)-10) :
+            self.shift = 10
+            player.rect.x += 10
+            #player.speed = 10
+
+
+            #self.shift = player.speed
+            #player.speed = 0
+            #monstres.vitesse = 3
+
+        elif (Position_y > (screen_height - (screen_width / 2)+10)) :
+            self.shift = -10
+            player.rect.y -= 10
+            #player.speed = -10
+
+
+            #self.shift= -player.speed
+            #player.speed = 0
+            #monstres.vitesse = -3
+    '''
 
     def horizontal_collision(self):
         player = self.player.sprite
@@ -105,7 +142,7 @@ class Level:
         #level
         self.Tiles.update(self.shift)
         self.Tiles.draw(self.display_surface)
-        """self.scroll_x()"""
+        self.scroll_x()
 
         #Capacity
 
