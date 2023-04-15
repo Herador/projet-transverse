@@ -21,44 +21,58 @@ class Player(pygame.sprite.Sprite):
         self.angleradian = math.pi * self.angle / 180
 
         # temps sur touche
-        self.tg = 0
-        self.td = 0
-        self.touche_appye_d =0
-        self.touche_appye_g = 0
+        self.start_time = 0
+        self.end_time = 0
+        self.t = 0
 
 
     def input(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE] :
+
+        if keys[pygame.K_SPACE]:
+            if self.start_time == 0:
+                self.start_time = pygame.time.get_ticks()
+        else:
+            if self.start_time != 0:
+                self.end_time = pygame.time.get_ticks()
+                self.t = self.end_time - self.start_time
+                print(self.t)
+                self.t = self.t / 100
+                self.rect.x += (self.speed * math.cos(self.angleradian) * self.t)
+                self.rect.y -= (-1 / 2 * self.gravity * -(self.t) ** 2) + (self.speed * math.sin(self.angleradian) * self.t)
+
+                print(self.t)
+                self.start_time = 0
+                self.end_time = 0
+                self.t = 0
+
+
+
+        """for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.start_time = pygame.time.get_ticks()
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    self.end_time = pygame.time.get_ticks()
+                    self.t = self.end_time - self.start_time"""
+        """if keys[pygame.K_SPACE] :
             if self.touche_appye_d ==1:
                 self.touche_appye_d = pygame.time.get_ticks()
             else:
                 self.td = pygame.time.get_ticks() - self.touche_appye_d
 
-            self.td = self.td /1000
-            self.rect.x += (self.speed * math.cos(self.angleradian)*self.td)
-            self.rect.y -= (-1/2 * self.gravity * -(self.td)**2) +  (self.speed * math.sin(self.angleradian)*self.td)
-            print(self.td)
-            self.td = 0
-            self.touche_appye_d = 0
+            self.t = self.t /1000
+            self.rect.x += (self.speed * math.cos(self.angleradian)*self.t)
+            self.rect.y -= (-1/2 * self.gravity * -(self.td)**2) +  (self.speed * math.sin(self.angleradian)*self.t)
+            print(self.t)
+            self.t = 0
+            self.touche_appye_d = 0"""
 
 
 
 
 
-        if keys[pygame.K_LEFT] :
-            if self.touche_appye_g == 1:
-                self.touche_appye_g = pygame.time.get_ticks()
-            else:
-                self.tg = pygame.time.get_ticks() - self.touche_appye_g
-            self.tg = self.tg / 1000
-            self.rect.x -= (self.speed * math.cos(self.angleradian) * self.tg)
-            self.rect.y -= (-1 / 2 * self.gravity * -(self.tg) ** 2) + (self.speed * math.sin(self.angleradian) * self.tg)
-            print(self.tg)
-            self.tg = 0
-        else:
-            self.tg = 0
-            self.touche_appye_g = 0
 
             #self.rect.y += self.jump_speed
             #self.rect.x -= self.speed
@@ -102,6 +116,4 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.input()
-
-
 
