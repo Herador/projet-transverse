@@ -33,6 +33,11 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
+            self.angleradian = math.pi-math.pi * self.angle / 180
+        else :
+            self.angleradian = math.pi * self.angle / 180
+
+        if keys[pygame.K_LEFT]:
             self.angleradian = math.pi - math.pi * self.angle / 180
         if keys[pygame.K_RIGHT]:
             self.angleradian = math.pi * self.angle / 180
@@ -48,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         if self.saut:
             self.direction.x = (self.speed * math.cos(self.angleradian) * self.t)
             self.direction.y = (self.jump_speed * math.sin(self.angleradian) * self.t) - (self.gravity * self.t ** 2 / 2)
-            print(self.t, "/", self.direction.x, self.direction.y)
+            #print(self.t, "/", self.direction.x, self.direction.y)
             self.t += 1
 
         """else:
