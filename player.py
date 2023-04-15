@@ -40,7 +40,6 @@ class Player(pygame.sprite.Sprite):
                 self.t = self.t / 100
                 self.rect.x += (self.speed * math.cos(self.angleradian) * self.t)
                 self.rect.y -= (-1 / 2 * self.gravity * -(self.t) ** 2) + (self.speed * math.sin(self.angleradian) * self.t)
-
                 print(self.t)
                 self.start_time = 0
                 self.end_time = 0
