@@ -122,7 +122,9 @@ class Level:
 
     def vertical_collision(self):
         player = self.player.sprite
-        """player.apply_gravity()"""
+        #player.apply_gravity()
+
+
 
 
         for sprite in self.Tiles.sprites():
