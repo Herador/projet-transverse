@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite):
                 self.end_time = pygame.time.get_ticks()
                 self.temps = self.end_time - self.start_time
                 self.temps = self.temps / 100
-                print("t = ", self.temps)
+                #print("t = ", self.temps)
 
                 self.saut = True
                 self.espace = True
