@@ -8,17 +8,18 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, position):
         super().__init__()
 
-        self.image = pygame.image.load("perso.png")
+        self.image = pygame.image.load("perso_rouge.png")
         self.rect = self.image.get_rect(center = position)
 
         self.direction = pygame.math.Vector2(0, 0)
 
         # paramètre du joueur
-        self.speed = 1
-        self.gravity = 1
-        self.jump_speed = 10
+        self.speed = 2
+        self.gravity = 3
+        self.jump_speed = 7
         self.cooldown = 0
-        self.vie = 1
+
+
 
         # donnée du saut
         self.saut = False
@@ -38,9 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.g = False
         self.d = True
 
-        #monte/descente angle
-        self.Monte_A = True
-        self.Descente_A = False
+
     def input(self):
         keys = pygame.key.get_pressed()
         if self.saut== False:
@@ -63,7 +62,7 @@ class Player(pygame.sprite.Sprite):
             if self.start_time != 0:
                 self.end_time = pygame.time.get_ticks()
                 self.temps = self.end_time - self.start_time
-                self.temps = self.temps / 100
+                self.temps = self.temps / 75
                 self.saut = True
                 self.espace = True
                 self.positionInit = self.rect.y
@@ -74,17 +73,10 @@ class Player(pygame.sprite.Sprite):
 
         if self.saut and self.espace:
             for i in range(int(self.temps)):
-                if self.Monte_A:
                     self.angle += 5
-                if self.angle > 35:
-                    self.Descente_A = True
-                    self.Monte_A = False
-                if self.Descente_A:
-                    self.angle -= 5
-                if self.angle < 20:
-                    self.Monte_A = True
-                    self.Descente_A = False
-                print(self.angle)
+                    if self.angle>60:
+                        self.angle = 60
+                    print(self.angle)
             '''            if self.temps>0:
                             self.angle = 20
                         elif self.temps>2:
@@ -102,14 +94,11 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = (self.speed * math.cos(self.angleradian) * self.t)
             self.direction.y = (self.jump_speed * math.sin(self.angleradian) * self.t) - (self.gravity * self.t ** 2 / 2)
 
-            self.t += 0.5
+            self.t += 0.1
             self.temps = 0
             self.start_time = 0
             self.end_time = 0
 
-    def apply_gravity(self):
-        self.direction.y += self.gravity
-        self.rect.y += self.direction.y
 
     def update(self):
         self.input()
@@ -117,3 +106,4 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.direction.x
         self.rect.y -= self.direction.y
 
+        print("x : ",self.rect.x,'// y : ',self.rect.y)

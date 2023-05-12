@@ -5,8 +5,8 @@ class Tile(pygame.sprite.Sprite):
         super().__init__()
 
         # Crée une surface jaune pour représenter une tuile
-        self.image = pygame.Surface((size, size))
-        self.image.fill('yellow')
+        self.image = pygame.image.load("pierre_noir.png")
+
 
         # Crée un rectangle avec la position et la taille de l'image
         self.rect = self.image.get_rect(center = position)
