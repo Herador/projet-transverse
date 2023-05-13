@@ -9,8 +9,9 @@ class obstacle(pygame.sprite.Sprite):
         super().__init__()
 
         # Crée une surface rouge de la taille de l'obstacle.
-        self.image = pygame.Surface((size, size))
-        self.image.fill('red')
+        self.image = pygame.image.load("Obstacle.png")
+        #self.image = pygame.Surface((size, size))
+        #self.image.fill('red')
 
         # Récupère le rectangle englobant l'image.
         self.rect = self.image.get_rect(center = position)

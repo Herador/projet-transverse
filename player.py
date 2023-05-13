@@ -39,18 +39,19 @@ class Player(pygame.sprite.Sprite):
         self.g = False
         self.d = True
 
-
     def input(self):
         keys = pygame.key.get_pressed()
-        if self.saut== False:
+        if self.saut == False:
             self.angle = 20
 
         if keys[pygame.K_LEFT]:
             self.d = False
+            self.image = pygame.image.load("perso_rouge_inverse.png")
             self.g = True
 
         if keys[pygame.K_RIGHT]:
             self.d = True
+            self.image = pygame.image.load("perso_rouge.png")
             self.g = False
 
 
