@@ -13,6 +13,7 @@ class Level:
 
         #configuration du niveau
         self.display_surface = surface
+        self.level_data = level_data
         self.setup_level(level_data)
         self.shift = 0
 
@@ -109,19 +110,15 @@ class Level:
         player = self.player.sprite
         Position_x = player.rect.centerx
 
-
-
         if (Position_x < (screen_width / 6)):
             self.shift = 800
             player.rect.x += 800
-
 
         elif (Position_x > (screen_width - (screen_width / 6))):
             self.shift = -800
             player.rect.x -= 800
             self.cpt +=1
             print(self.cpt)
-
 
         else:
             self.shift = 0
@@ -178,11 +175,11 @@ class Level:
                 self.win = True
     def reset_pos_perso(self):
         player = self.player.sprite
-        player.rect.x = 256
-        player.rect.y = 456
         player.saut = False
         player.direction.x = 0
         player.direction.y = 0
+        self.setup_level(self.level_data)
+
 
     def gameover(self,surface):
         if self.game_over == True:
