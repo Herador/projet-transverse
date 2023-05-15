@@ -8,7 +8,7 @@ from objet import obstacle,drapeau
 
 class Level:
 
-    def __init__(self,level2,level1,level_tuto,surface):
+    def __init__(self,level3,level2,level1,level_tuto,surface):
         #Debut du niveau
         self.tick = 120
         self.reset_tick = True
@@ -17,6 +17,7 @@ class Level:
         self.shift = 0
         self.map_level1 = level1
         self.map_level2 = level2
+        self.map_level3 = level3
         self.map_leveltuto = level_tuto
 
         #temps du niveua
@@ -38,6 +39,7 @@ class Level:
         self.Lancement = True
         self.Level1 = False
         self.Level2 = False
+        self.Level3 = False
         self.Level_Tuto = False
 
         # initialisation du fond blanc
@@ -57,11 +59,12 @@ class Level:
         self.ecran_game_over = pygame.image.load("game-over.png")
         self.bouton_restart = pygame.image.load("Restart.png")
         self.bouton_restart_rect = self.bouton_restart.get_rect()
-
+        self.bouton_return = pygame.image.load("Return.png")
         #initialisation de l'image de fond d'ecran
         self.fond_ecran = pygame.image.load("game-background-game-design.png")
 
-
+#MENU
+#------------------------------------------------------------------------------------------------------------------------------------------------
     def lancement(self,surface):
 
         surface.blit(self.fond_ecran,(0,0))
@@ -92,6 +95,170 @@ class Level:
             if rect_x4 < mouse_x < rect_x4 + rect_width4 and rect_y4 < mouse_y < rect_y4 + rect_height4:
                 self.Lancement = False
                 self.Classement = True
+
+    def gameover(self,surface):
+
+        if self.game_over == True:
+
+
+            self.reset = True
+            player = self.player.sprite
+            surface.blit(self.fond_ecran,(0,0))
+            surface.blit(self.ecran_game_over,(500,100))
+
+            surface.blit(self.bouton_restart,(550,300))
+            rect_x,rect_y,rect_height,rect_width = 550,300,126,240
+            if pygame.mouse.get_pressed()[0]:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
+
+                    self.game_over = False
+                    self.Level1 = True
+                    self.reset_pos_perso()
+                    #print(player.rect.x)
+                    #print(player.rect.y)
+
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_RETURN]:
+                self.game_over = False
+                self.Level1 = True
+                self.reset_pos_perso()
+
+            rect_x, rect_y, rect_height, rect_width = 550, 650, 126, 240
+            surface.blit(self.bouton_return,(550,650))
+            #pygame.draw.rect(surface, (250, 250, 250), (rect_x, rect_y, rect_width, rect_height))
+            if pygame.mouse.get_pressed()[0]:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
+                    self.Level1 = False
+                    self.Level2 = False
+                    self.Level_Tuto = False
+                    self.game_over= False
+                    self.Lancement = True
+
+    def fin_de_jeu(self,surface):
+        surface.blit(self.fond_ecran, (0, 0))
+        if self.debut_compteur == True:
+            self.temps = pygame.time.get_ticks() - self.start_time
+            self.temps /=1000
+            #print("Temps écoulé : {:.2f} secondes".format(self.temps))
+            int(self.temps)
+            self.classement()
+            self.debut_compteur = False
+        rect_x, rect_y, rect_height, rect_width = 550, 350, 126, 240
+        pygame.draw.rect(surface, (250, 250, 250), (rect_x, rect_y, rect_width, rect_height))
+        if pygame.mouse.get_pressed()[0]:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
+                self.win = False
+                self.Lancement = True
+
+    def regle(self,surface):
+        self.Lancement = False
+        surface.blit(self.fond_ecran, (0, 0))
+        police = pygame.font.SysFont("monospace",20)
+        txt = police.render("Le but du jeu est d'atteindre la ligne d'arrivé."
+                            " La touche R vous permet de reset la postion du joueur.",1,(250,250,250))
+        surface.blit(txt,(200,200))
+
+        rect_x, rect_y, rect_height, rect_width = 550, 350, 126, 240
+        pygame.draw.rect(surface,(250,250,250),(rect_x, rect_y, rect_width, rect_height))
+        if pygame.mouse.get_pressed()[0]:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
+                self.Regle = False
+                self.Lancement = True
+
+    def page_levels(self,surface):
+        surface.blit(self.fond_ecran,(0,0))
+        #dinitialisation des rectangle
+        rect_x1, rect_y1, rect_height1, rect_width1 = 600, 0, 100, 279
+        rect_x2, rect_y2, rect_height2, rect_width2 = 600, 150, 100, 279
+        rect_x3, rect_y3, rect_height3, rect_width3 = 600, 300, 100, 279
+        rect_x4, rect_y4, rect_height4, rect_width4 = 600, 450, 100, 279
+        rect_x5, rect_y5, rect_height5, rect_width5 = 600, 600, 100, 279
+        rect_x6, rect_y6, rect_height6, rect_width6 = 600, 750, 100, 279
+
+        police = pygame.font.SysFont("monospace", 20)
+        leveltuto =  police.render("TUTO ",1,(250,250,250))
+        level1 = police.render("1 ",1,(250,250,250))
+        level2 = police.render("2 ",1,(250,250,250))
+        level3 = police.render("3 ",1,(250,250,250))
+        level4 = police.render("4 ", 1, (250, 250, 250))
+
+        pygame.draw.rect(surface, (0, 0, 0), (rect_x1, rect_y1, rect_width1, rect_height1))
+        pygame.draw.rect(surface, (0, 0, 0), (rect_x2, rect_y2, rect_width2, rect_height2))
+        pygame.draw.rect(surface, (0, 0, 0), (rect_x3, rect_y3, rect_width3, rect_height3))
+        pygame.draw.rect(surface, (0, 0, 0), (rect_x4, rect_y4, rect_width4, rect_height4))
+        pygame.draw.rect(surface, (0, 0, 0), (rect_x5, rect_y5, rect_width5, rect_height5))
+        pygame.draw.rect(surface,(250,0,0),(rect_x6, rect_y6, rect_width6, rect_height6))
+        surface.blit(leveltuto, (722, 50))
+        surface.blit(level1, (725, 200))
+        surface.blit(level2, (725, 350))
+        surface.blit(level3, (725, 500))
+        surface.blit(level4, (725, 650))
+
+
+        if pygame.mouse.get_pressed()[0]:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if rect_x1 < mouse_x < rect_x1 + rect_width1 and rect_y1 < mouse_y < rect_y1 + rect_height1:
+                self.setup_level(self.map_leveltuto)
+                self.Page_Level = False
+                self.Level_Tuto = True
+
+            if rect_x2 < mouse_x < rect_x2 + rect_width2 and rect_y2 < mouse_y < rect_y2 + rect_height2:
+                self.setup_level(self.map_level1)
+                self.Page_Level = False
+                self.Level1 = True
+
+            if rect_x3 < mouse_x < rect_x3 + rect_width3 and rect_y3 < mouse_y < rect_y3 + rect_height3:
+                self.setup_level(self.map_level2)
+                self.Page_Level = False
+                self.Level2 = True
+
+            if rect_x4 < mouse_x < rect_x4 + rect_width3 and rect_y4 < mouse_y < rect_y4 + rect_height4:
+                self.setup_level(self.map_level3)
+                self.Page_Level = False
+                self.Level3 = True
+
+            if rect_x6 < mouse_x < rect_x6 + rect_width6 and rect_y6 < mouse_y < rect_y6 + rect_height6:
+                self.Page_Level = False
+                self.Lancement = True
+
+    def classement(self):
+        f = open("Classement.txt", "a")
+        if self.temps >60:
+            self.temps /= 60
+            f.write("X : {:.2f} minutes \n".format(self.temps))
+        else:
+            f.write("X : {:.2f} secondes \n".format(self.temps))
+        f.close()
+
+    def print_classement(self,surface):
+
+        # Création de la police de caractères
+        font = pygame.font.SysFont("monospace", 30)
+        text_surface = font.render("Classement : ", True, (255, 255, 255))
+        surface.blit(self.fond_ecran, (0, 0))
+        surface.blit(text_surface, (50, 50))
+
+        f = open("Classement.txt", "r")
+        for i, line in enumerate(f):
+            text_surface = font.render(line, True, (255, 255, 255))
+            surface.blit(text_surface, (50, 100 + i * 30))
+        f.close()
+
+        rect_x, rect_y, rect_height, rect_width = 550, 650, 126, 240
+        pygame.draw.rect(surface, (250, 250, 250), (rect_x, rect_y, rect_width, rect_height))
+        if pygame.mouse.get_pressed()[0]:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
+                self.Classement = False
+                self.Lancement = True
+
+#JEUX
+# ------------------------------------------------------------------------------------------------------------------------------------------------
+
     def setup_level(self,layout):
         self.Tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
@@ -115,7 +282,6 @@ class Level:
                 if col == 'D':
                     Drapeau = drapeau((x,y),obstacle_size)
                     self.drapeau.add(Drapeau)
-
 
     def scroll_x(self):
         player = self.player.sprite
@@ -202,158 +368,24 @@ class Level:
         player.direction.x = 0
         player.direction.y = 0
         if self.Level1 :
+
             self.setup_level(self.map_level1)
+            self.tick = 120
+
         if self.Level_Tuto :
             self.setup_level(self.map_leveltuto)
             if self.reset_tick:
                 self.tick /=2
-                self.reset_tick = False
+
+
         if self.Level2:
             self.setup_level(self.map_level2)
             if self.reset_tick:
                 self.tick /=2
                 self.reset_tick = False
 
-    def gameover(self,surface):
-        if self.game_over == True:
-            self.reset = True
-            player = self.player.sprite
-            surface.fill('black')
-            surface.blit(self.ecran_game_over,(500,100))
-
-            surface.blit(self.bouton_restart,(550,300))
-            rect_x,rect_y,rect_height,rect_width = 550,300,126,240
-            if pygame.mouse.get_pressed()[0]:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
-
-                    self.game_over = False
-                    self.Level1 = True
-                    self.reset_pos_perso()
-                    #print(player.rect.x)
-                    #print(player.rect.y)
-
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_RETURN]:
-                self.game_over = False
-                self.Level1 = True
-                self.reset_pos_perso()
-
-    def fin_de_jeu(self,surface):
-        surface.fill('black')
-        if self.debut_compteur == True:
-            self.temps = pygame.time.get_ticks() - self.start_time
-            self.temps /=1000
-            #print("Temps écoulé : {:.2f} secondes".format(self.temps))
-            int(self.temps)
-            self.classement()
-            self.debut_compteur = False
-        rect_x, rect_y, rect_height, rect_width = 550, 350, 126, 240
-        pygame.draw.rect(surface, (250, 250, 250), (rect_x, rect_y, rect_width, rect_height))
-        if pygame.mouse.get_pressed()[0]:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
-                self.win = False
-                self.Lancement = True
-    def regle(self,surface):
-        self.Lancement = False
-        surface.fill('black')
-        police = pygame.font.SysFont("monospace",20)
-        txt = police.render("Le but du jeu est d'atteindre la ligne d'arrivé."
-                            " La touche R vous permet de reset la postion du joueur.",1,(250,250,250))
-        surface.blit(txt,(200,200))
-
-        rect_x, rect_y, rect_height, rect_width = 550, 350, 126, 240
-        pygame.draw.rect(surface,(250,250,250),(rect_x, rect_y, rect_width, rect_height))
-        if pygame.mouse.get_pressed()[0]:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
-                self.Regle = False
-                self.Lancement = True
-
-
-    def page_levels(self,surface):
-        surface.blit(self.fond_ecran,(0,0))
-        #dinitialisation des rectangle
-        rect_x1, rect_y1, rect_height1, rect_width1 = 600, 0, 100, 279
-        rect_x2, rect_y2, rect_height2, rect_width2 = 600, 150, 100, 279
-        rect_x3, rect_y3, rect_height3, rect_width3 = 600, 300, 100, 279
-        rect_x4, rect_y4, rect_height4, rect_width4 = 600, 450, 100, 279
-        rect_x5, rect_y5, rect_height5, rect_width5 = 600, 600, 100, 279
-        rect_x6, rect_y6, rect_height6, rect_width6 = 600, 750, 100, 279
-
-        police = pygame.font.SysFont("monospace", 20)
-        leveltuto =  police.render("TUTO ",1,(250,250,250))
-        level1 = police.render("1 ",1,(250,250,250))
-        level2 = police.render("2 ",1,(250,250,250))
-        level3 = police.render("3 ",1,(250,250,250))
-        level4 = police.render("4 ", 1, (250, 250, 250))
-
-        pygame.draw.rect(surface, (0, 0, 0), (rect_x1, rect_y1, rect_width1, rect_height1))
-        pygame.draw.rect(surface, (0, 0, 0), (rect_x2, rect_y2, rect_width2, rect_height2))
-        pygame.draw.rect(surface, (0, 0, 0), (rect_x3, rect_y3, rect_width3, rect_height3))
-        pygame.draw.rect(surface, (0, 0, 0), (rect_x4, rect_y4, rect_width4, rect_height4))
-        pygame.draw.rect(surface, (0, 0, 0), (rect_x5, rect_y5, rect_width5, rect_height5))
-        pygame.draw.rect(surface,(250,0,0),(rect_x6, rect_y6, rect_width6, rect_height6))
-        surface.blit(leveltuto, (722, 50))
-        surface.blit(level1, (725, 200))
-        surface.blit(level2, (725, 350))
-        surface.blit(level3, (725, 500))
-        surface.blit(level4, (725, 650))
-
-
-        if pygame.mouse.get_pressed()[0]:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if rect_x1 < mouse_x < rect_x1 + rect_width1 and rect_y1 < mouse_y < rect_y1 + rect_height1:
-                self.setup_level(self.map_leveltuto)
-                self.Page_Level = False
-                self.Level_Tuto = True
-
-            if rect_x2 < mouse_x < rect_x2 + rect_width2 and rect_y2 < mouse_y < rect_y2 + rect_height2:
-                self.setup_level(self.map_level1)
-                self.Page_Level = False
-                self.Level1 = True
-
-            if rect_x3 < mouse_x < rect_x3 + rect_width3 and rect_y3 < mouse_y < rect_y3 + rect_height3:
-                self.setup_level(self.map_level2)
-                self.Page_Level = False
-                self.Level2 = True
-
-            if rect_x6 < mouse_x < rect_x6 + rect_width6 and rect_y6 < mouse_y < rect_y6 + rect_height6:
-                self.Page_Level = False
-                self.Lancement = True
-    def classement(self):
-        f = open("Classement.txt", "a")
-        if self.temps >60:
-            self.temps /= 60
-            f.write("X : {:.2f} minutes \n".format(self.temps))
-        else:
-            f.write("X : {:.2f} secondes \n".format(self.temps))
-        f.close()
-
-
-    def print_classement(self,surface):
-
-        # Création de la police de caractères
-        font = pygame.font.SysFont("monospace", 30)
-        text_surface = font.render("Classement : ", True, (255, 255, 255))
-        surface.fill('black')
-        surface.blit(text_surface, (50, 50))
-
-        f = open("Classement.txt", "r")
-        for i, line in enumerate(f):
-            text_surface = font.render(line, True, (255, 255, 255))
-            surface.blit(text_surface, (50, 100 + i * 30))
-        f.close()
-
-        rect_x, rect_y, rect_height, rect_width = 550, 650, 126, 240
-        pygame.draw.rect(surface, (250, 250, 250), (rect_x, rect_y, rect_width, rect_height))
-        if pygame.mouse.get_pressed()[0]:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
-                self.Classement = False
-                self.Lancement = True
-
+        if self.Level3:
+            self.setup_level(self.map_level3)
 
     def run(self):
 
@@ -384,17 +416,11 @@ class Level:
         self.monstres.draw(self.display_surface)
         self.monstres.update()
 
+        print(self.temps)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_r]:
             self.reset_pos_perso()
-        player = self.player.sprite
-
-        if keys[pygame.K_x]:
-            player.rect.x +=50
-        if keys[pygame.K_c]:
-            player.rect.x -=50
-
 
 
 
@@ -415,14 +441,16 @@ class Level:
         if self.Level1:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
-            self.start_time = 0
             self.start_time = pygame.time.get_ticks()
         if self.Level_Tuto:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
-            self.start_time = 0
-            self.start_time = pygame.time.get_ticks()
+            self.start_time = time.time()
         if self.Level2:
+            surface.blit(self.fond_ecran,(0,0))
+            level.run()
+            self.start_time = pygame.time.get_ticks()
+        if self.Level3:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
 
