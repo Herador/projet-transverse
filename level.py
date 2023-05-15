@@ -8,13 +8,15 @@ from objet import obstacle,drapeau
 
 class Level:
 
-    def __init__(self,level1,level_tuto,surface):
+    def __init__(self,level2,level1,level_tuto,surface):
         #Debut du niveau
-
+        self.tick = 120
+        self.reset_tick = True
         #configuration du niveau
         self.display_surface = surface
         self.shift = 0
         self.map_level1 = level1
+        self.map_level2 = level2
         self.map_leveltuto = level_tuto
 
         #temps du niveua
@@ -35,6 +37,7 @@ class Level:
         # boulen pour savoir si les bouton du menu sont activé
         self.Lancement = True
         self.Level1 = False
+        self.Level2 = False
         self.Level_Tuto = False
 
         # initialisation du fond blanc
@@ -189,16 +192,27 @@ class Level:
             if player.rect.colliderect(col.rect):
                 self.Level1 = False
                 self.Level_Tuto = False
+                self.Level2 = False
                 self.win = True
                 self.debut_compteur = True
 
     def reset_pos_perso(self):
         player = self.player.sprite
-        player.rect.x = 256
-        player.rect.y = 456
         player.saut = False
         player.direction.x = 0
         player.direction.y = 0
+        if self.Level1 :
+            self.setup_level(self.map_level1)
+        if self.Level_Tuto :
+            self.setup_level(self.map_leveltuto)
+            if self.reset_tick:
+                self.tick /=2
+                self.reset_tick = False
+        if self.Level2:
+            self.setup_level(self.map_level2)
+            if self.reset_tick:
+                self.tick /=2
+                self.reset_tick = False
 
     def gameover(self,surface):
         if self.game_over == True:
@@ -219,12 +233,18 @@ class Level:
                     #print(player.rect.x)
                     #print(player.rect.y)
 
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_RETURN]:
+                self.game_over = False
+                self.Level1 = True
+                self.reset_pos_perso()
+
     def fin_de_jeu(self,surface):
         surface.fill('black')
         if self.debut_compteur == True:
             self.temps = pygame.time.get_ticks() - self.start_time
             self.temps /=1000
-            print("Temps écoulé : {:.2f} secondes".format(self.temps))
+            #print("Temps écoulé : {:.2f} secondes".format(self.temps))
             int(self.temps)
             self.classement()
             self.debut_compteur = False
@@ -293,6 +313,11 @@ class Level:
                 self.setup_level(self.map_level1)
                 self.Page_Level = False
                 self.Level1 = True
+
+            if rect_x3 < mouse_x < rect_x3 + rect_width3 and rect_y3 < mouse_y < rect_y3 + rect_height3:
+                self.setup_level(self.map_level2)
+                self.Page_Level = False
+                self.Level2 = True
 
             if rect_x6 < mouse_x < rect_x6 + rect_width6 and rect_y6 < mouse_y < rect_y6 + rect_height6:
                 self.Page_Level = False
@@ -390,9 +415,15 @@ class Level:
         if self.Level1:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
+            self.start_time = 0
+            self.start_time = pygame.time.get_ticks()
         if self.Level_Tuto:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
             self.start_time = 0
             self.start_time = pygame.time.get_ticks()
+        if self.Level2:
+            surface.blit(self.fond_ecran,(0,0))
+            level.run()
+
 
