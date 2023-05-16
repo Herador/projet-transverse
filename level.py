@@ -8,15 +8,16 @@ from objet import obstacle,drapeau
 
 class Level:
 
-    def __init__(self,level1,level_tuto,surface):
+    def __init__(self,level3,level2,level1,level_tuto,surface):
         #Debut du niveau
-
+        self.tick = 120
+        self.reset_tick = True
         #configuration du niveau
         self.display_surface = surface
-        self.level_data = level1
-        self.setup_level(level1)
         self.shift = 0
         self.map_level1 = level1
+        self.map_level2 = level2
+        self.map_level3 = level3
         self.map_leveltuto = level_tuto
 
         #temps du niveua
@@ -37,7 +38,10 @@ class Level:
         # boulen pour savoir si les bouton du menu sont activé
         self.Lancement = True
         self.Level1 = False
+        self.Level2 = False
+        self.Level3 = False
         self.Level_Tuto = False
+
         # initialisation du fond blanc
         self.baniere = pygame.image.load("fond.png")
 
@@ -55,11 +59,12 @@ class Level:
         self.ecran_game_over = pygame.image.load("game-over.png")
         self.bouton_restart = pygame.image.load("Restart.png")
         self.bouton_restart_rect = self.bouton_restart.get_rect()
-
+        self.bouton_return = pygame.image.load("Return.png")
         #initialisation de l'image de fond d'ecran
         self.fond_ecran = pygame.image.load("game-background-game-design.png")
 
-
+#MENU
+#------------------------------------------------------------------------------------------------------------------------------------------------
     def lancement(self,surface):
 
         surface.blit(self.fond_ecran,(0,0))
@@ -90,115 +95,15 @@ class Level:
             if rect_x4 < mouse_x < rect_x4 + rect_width4 and rect_y4 < mouse_y < rect_y4 + rect_height4:
                 self.Lancement = False
                 self.Classement = True
-    def setup_level(self,layout):
-        self.Tiles = pygame.sprite.Group()
-        self.player = pygame.sprite.GroupSingle()
-        self.monstres = pygame.sprite.GroupSingle()
-        self.obstacles = pygame.sprite.Group()
-        self.drapeau = pygame.sprite.Group()
-
-        for row_index,row in enumerate(layout):
-            for col_index, col in enumerate(row):
-                x = col_index * tile_size
-                y = row_index * tile_size
-                if col == 'X':
-                    tile = Tile((x,y),tile_size)
-                    self.Tiles.add(tile)
-                if col == 'P':
-                    player_sprite = Player((x,y))
-                    self.player.add(player_sprite)
-                if col == 'O':
-                    obs = obstacle((x, y), obstacle_size)
-                    self.obstacles.add(obs)
-                if col == 'D':
-                    Drapeau = drapeau((x,y),obstacle_size)
-                    self.drapeau.add(Drapeau)
-
-
-    def scroll_x(self):
-        player = self.player.sprite
-        Position_x = player.rect.centerx
-
-        if (Position_x < (screen_width / 6)):
-            self.shift = 800
-            player.rect.x += 800
-
-        elif (Position_x > (screen_width - (screen_width / 6))):
-            self.shift = -800
-            player.rect.x -= 800
-            self.cpt +=1
-            print(self.cpt)
-
-        else:
-            self.shift = 0
-
-
-    def horizontal_collision(self,surface):
-        player = self.player.sprite
-
-        enemies = self.monstres.sprites()
-        obstacles = self.obstacles.sprites()
-        colision_p = self.Tiles.sprites()
-        Drapeau = self.drapeau.sprites()
-
-        for sprite in self.Tiles.sprites():
-            if sprite.rect.colliderect(player.rect):
-
-
-                if abs(player.rect.right - sprite.rect.left) < 10 and player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
-                    player.direction.x = -10
-
-                if abs(player.rect.left - sprite.rect.right) < 10 and player.direction.x < 0:
-                    player.rect.left = sprite.rect.right
-                    player.direction.x = 10
-
-
-
-                if abs(player.rect.bottom - sprite.rect.top) < 20 and player.direction.y < 0:
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0
-                    player.direction.x = 0
-                    player.saut = False
-                    player.stop_traj = False
-                if abs(player.rect.top - sprite.rect.bottom)<20 and player.direction.y > 0:
-                    if player.direction.x > 0:
-                        player.rect.left = sprite.rect.right
-                        player.direction.x = 10
-
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0
-
-
-        #vie du joueur
-        for ob in obstacles:
-            if player.rect.colliderect(ob.rect):
-                self.game_over = True
-                self.Level1 = False
-        for col in colision_p:
-            if player.rect.colliderect(col.rect):
-                Player.saut = False
-
-        for col in Drapeau:
-            if player.rect.colliderect(col.rect):
-                self.Level1 = False
-                self.Level_Tuto = False
-                self.win = True
-                self.debut_compteur = True
-
-    def reset_pos_perso(self):
-        player = self.player.sprite
-        player.saut = False
-        player.direction.x = 0
-        player.direction.y = 0
-        self.setup_level(self.level_data)
-
 
     def gameover(self,surface):
+
         if self.game_over == True:
+
+
             self.reset = True
             player = self.player.sprite
-            surface.fill('black')
+            surface.blit(self.fond_ecran,(0,0))
             surface.blit(self.ecran_game_over,(500,100))
 
             surface.blit(self.bouton_restart,(550,300))
@@ -213,12 +118,30 @@ class Level:
                     #print(player.rect.x)
                     #print(player.rect.y)
 
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_RETURN]:
+                self.game_over = False
+                self.Level1 = True
+                self.reset_pos_perso()
+
+            rect_x, rect_y, rect_height, rect_width = 550, 650, 126, 240
+            surface.blit(self.bouton_return,(550,650))
+            #pygame.draw.rect(surface, (250, 250, 250), (rect_x, rect_y, rect_width, rect_height))
+            if pygame.mouse.get_pressed()[0]:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
+                    self.Level1 = False
+                    self.Level2 = False
+                    self.Level_Tuto = False
+                    self.game_over= False
+                    self.Lancement = True
+
     def fin_de_jeu(self,surface):
-        surface.fill('black')
+        surface.blit(self.fond_ecran, (0, 0))
         if self.debut_compteur == True:
             self.temps = pygame.time.get_ticks() - self.start_time
             self.temps /=1000
-            print("Temps écoulé : {:.2f} secondes".format(self.temps))
+            #print("Temps écoulé : {:.2f} secondes".format(self.temps))
             int(self.temps)
             self.classement()
             self.debut_compteur = False
@@ -232,7 +155,7 @@ class Level:
 
     def regle(self,surface):
         self.Lancement = False
-        surface.fill('black')
+        surface.blit(self.fond_ecran, (0, 0))
         police = pygame.font.SysFont("monospace",20)
         txt = police.render("Le but du jeu est d'atteindre la ligne d'arrivé."
                             " La touche R vous permet de reset la postion du joueur.",1,(250,250,250))
@@ -245,7 +168,6 @@ class Level:
             if rect_x < mouse_x < rect_x + rect_width and rect_y < mouse_y < rect_y + rect_height:
                 self.Regle = False
                 self.Lancement = True
-
 
     def page_levels(self,surface):
         surface.blit(self.fond_ecran,(0,0))
@@ -289,9 +211,20 @@ class Level:
                 self.Page_Level = False
                 self.Level1 = True
 
+            if rect_x3 < mouse_x < rect_x3 + rect_width3 and rect_y3 < mouse_y < rect_y3 + rect_height3:
+                self.setup_level(self.map_level2)
+                self.Page_Level = False
+                self.Level2 = True
+
+            if rect_x4 < mouse_x < rect_x4 + rect_width3 and rect_y4 < mouse_y < rect_y4 + rect_height4:
+                self.setup_level(self.map_level3)
+                self.Page_Level = False
+                self.Level3 = True
+
             if rect_x6 < mouse_x < rect_x6 + rect_width6 and rect_y6 < mouse_y < rect_y6 + rect_height6:
                 self.Page_Level = False
                 self.Lancement = True
+
     def classement(self):
         f = open("Classement.txt", "a")
         if self.temps >60:
@@ -301,13 +234,12 @@ class Level:
             f.write("X : {:.2f} secondes \n".format(self.temps))
         f.close()
 
-
     def print_classement(self,surface):
 
         # Création de la police de caractères
         font = pygame.font.SysFont("monospace", 30)
         text_surface = font.render("Classement : ", True, (255, 255, 255))
-        surface.fill('black')
+        surface.blit(self.fond_ecran, (0, 0))
         surface.blit(text_surface, (50, 50))
 
         f = open("Classement.txt", "r")
@@ -324,8 +256,139 @@ class Level:
                 self.Classement = False
                 self.Lancement = True
 
+#JEUX
+# ------------------------------------------------------------------------------------------------------------------------------------------------
+
+    def setup_level(self,layout):
+        self.Tiles = pygame.sprite.Group()
+        self.player = pygame.sprite.GroupSingle()
+        self.monstres = pygame.sprite.GroupSingle()
+        self.obstacles = pygame.sprite.Group()
+        self.drapeau = pygame.sprite.Group()
+
+        for row_index,row in enumerate(layout):
+            for col_index, col in enumerate(row):
+                x = col_index * tile_size
+                y = row_index * tile_size
+                if col == 'X':
+                    tile = Tile((x,y),tile_size)
+                    self.Tiles.add(tile)
+                if col == 'P':
+                    player_sprite = Player((x,y))
+                    self.player.add(player_sprite)
+                if col == 'O':
+                    obs = obstacle((x, y), obstacle_size)
+                    self.obstacles.add(obs)
+                if col == 'D':
+                    Drapeau = drapeau((x,y),obstacle_size)
+                    self.drapeau.add(Drapeau)
+
+    def scroll_x(self):
+        player = self.player.sprite
+        Position_x = player.rect.centerx
+
+
+
+        if (Position_x < (screen_width / 6)):
+            self.shift = 800
+            player.rect.x += 800
+
+
+        elif (Position_x > (screen_width - (screen_width / 6))):
+            self.shift = -800
+            player.rect.x -= 800
+            self.cpt +=1
+            print(self.cpt)
+
+
+        else:
+            self.shift = 0
+
+
+    def horizontal_collision(self,surface):
+        player = self.player.sprite
+
+        enemies = self.monstres.sprites()
+        obstacles = self.obstacles.sprites()
+        colision_p = self.Tiles.sprites()
+        Drapeau = self.drapeau.sprites()
+
+
+
+        for sprite in self.Tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+
+
+                if abs(player.rect.right - sprite.rect.left) < 10 and player.direction.x > 0:
+                    player.rect.right = sprite.rect.left
+                    player.direction.x = -10
+
+                if abs(player.rect.left - sprite.rect.right) < 10 and player.direction.x < 0:
+                    player.rect.left = sprite.rect.right
+                    player.direction.x = 10
+
+
+
+                if abs(player.rect.bottom - sprite.rect.top) < 20 and player.direction.y < 0:
+                    player.rect.bottom = sprite.rect.top
+                    player.direction.y = 0
+                    player.direction.x = 0
+                    player.saut = False
+                    player.stop_traj = False
+                if abs(player.rect.top - sprite.rect.bottom)<20 and player.direction.y > 0:
+                    if player.direction.x > 0:
+                        player.rect.left = sprite.rect.right
+                        player.direction.x = 10
+
+                    player.rect.top = sprite.rect.bottom
+                    player.direction.y = 0
+
+
+
+        #vie du joueur
+        for ob in obstacles:
+            if player.rect.colliderect(ob.rect):
+                self.game_over = True
+                self.Level1 = False
+        for col in colision_p:
+            if player.rect.colliderect(col.rect):
+                Player.saut = False
+
+        for col in Drapeau:
+            if player.rect.colliderect(col.rect):
+                self.Level1 = False
+                self.Level_Tuto = False
+                self.Level2 = False
+                self.win = True
+                self.debut_compteur = True
+
+    def reset_pos_perso(self):
+        player = self.player.sprite
+        player.saut = False
+        player.direction.x = 0
+        player.direction.y = 0
+        if self.Level1 :
+
+            self.setup_level(self.map_level1)
+            self.tick = 120
+
+        if self.Level_Tuto :
+            self.setup_level(self.map_leveltuto)
+            if self.reset_tick:
+                self.tick /=2
+
+
+        if self.Level2:
+            self.setup_level(self.map_level2)
+            if self.reset_tick:
+                self.tick /=2
+                self.reset_tick = False
+
+        if self.Level3:
+            self.setup_level(self.map_level3)
 
     def run(self):
+
         #level
         self.Tiles.update(self.shift)
         self.Tiles.draw(self.display_surface)
@@ -353,21 +416,16 @@ class Level:
         self.monstres.draw(self.display_surface)
         self.monstres.update()
 
+        print(self.temps)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_r]:
             self.reset_pos_perso()
-        player = self.player.sprite
-
-        if keys[pygame.K_x]:
-            player.rect.x +=50
-        if keys[pygame.K_c]:
-            player.rect.x -=50
-
 
 
 
     def update(self,surface,level):
+
         if self.Lancement:
             self.lancement(surface)
         if self.Page_Level:
@@ -383,9 +441,17 @@ class Level:
         if self.Level1:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
+            self.start_time = pygame.time.get_ticks()
         if self.Level_Tuto:
             surface.blit(self.fond_ecran,(0,0))
             level.run()
-            self.start_time = 0
+            self.start_time = time.time()
+        if self.Level2:
+            surface.blit(self.fond_ecran,(0,0))
+            level.run()
             self.start_time = pygame.time.get_ticks()
+        if self.Level3:
+            surface.blit(self.fond_ecran,(0,0))
+            level.run()
+
 
