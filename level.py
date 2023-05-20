@@ -19,6 +19,7 @@ class Level:
         self.map_level2 = level2
         self.map_level3 = level3
         self.map_leveltuto = level_tuto
+        self.compteur = 0
 
         #temps du niveua
         self.temps = 0
@@ -298,7 +299,7 @@ class Level:
             self.shift = -800
             player.rect.x -= 800
             self.cpt +=1
-            print(self.cpt)
+            #print(self.cpt)
 
 
         else:
@@ -348,11 +349,35 @@ class Level:
         #vie du joueur
         for ob in obstacles:
             if player.rect.colliderect(ob.rect):
-                self.game_over = True
-                self.Level1 = False
+                self.compteur += 1
+                player.vie -= self.compteur
+
+                while player.vie + self.compteur != 20:
+                    player.vie += 1
+
+                if player.vie == 0 :
+                    self.game_over = True
+                    self.Level1 = False
+                    player.vie = 10
+                    self.compteur = 0
+                self.reset_pos_perso()
+                #print(player.vie)
+
         for col in colision_p:
             if player.rect.colliderect(col.rect):
                 Player.saut = False
+
+        if player.rect.y > screen_height :
+            self.compteur += 1
+            player.vie -= self.compteur
+            while player.vie + self.compteur != 20:
+                player.vie += 1
+            if player.vie == 0:
+                self.game_over = True
+                self.Level1 = False
+                player.vie = 10
+                self.compteur = 0
+            self.reset_pos_perso()
 
         for col in Drapeau:
             if player.rect.colliderect(col.rect):
@@ -416,7 +441,7 @@ class Level:
         self.monstres.draw(self.display_surface)
         self.monstres.update()
 
-        print(self.temps)
+        #print(self.temps)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_r]:

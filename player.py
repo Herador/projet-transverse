@@ -18,6 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 3
         self.jump_speed = 7
         self.cooldown = 0
+        self.vie = 10
 
 
 
@@ -77,7 +78,7 @@ class Player(pygame.sprite.Sprite):
                     self.angle += 5
                     if self.angle>60:
                         self.angle = 60
-                    print(self.angle)
+                    #print(self.angle)
             '''            if self.temps>0:
                             self.angle = 20
                         elif self.temps>2:
@@ -107,4 +108,4 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.direction.x
         self.rect.y -= self.direction.y
 
-        print("x : ",self.rect.x,'// y : ',self.rect.y)
+        #print("x : ",self.rect.x,'// y : ',self.rect.y)
