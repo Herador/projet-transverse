@@ -351,18 +351,33 @@ class Level:
             if player.rect.colliderect(ob.rect):
                 self.compteur += 1
                 player.vie -= self.compteur
+
                 while player.vie + self.compteur != 20:
                     player.vie += 1
+
                 if player.vie == 0 :
                     self.game_over = True
                     self.Level1 = False
                     player.vie = 10
                     self.compteur = 0
                 self.reset_pos_perso()
-                print(player.vie)
+                #print(player.vie)
+
         for col in colision_p:
             if player.rect.colliderect(col.rect):
                 Player.saut = False
+
+        if player.rect.y > screen_height :
+            self.compteur += 1
+            player.vie -= self.compteur
+            while player.vie + self.compteur != 20:
+                player.vie += 1
+            if player.vie == 0:
+                self.game_over = True
+                self.Level1 = False
+                player.vie = 10
+                self.compteur = 0
+            self.reset_pos_perso()
 
         for col in Drapeau:
             if player.rect.colliderect(col.rect):

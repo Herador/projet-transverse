@@ -14,8 +14,8 @@ Lvl_1_map = [
     'XXXOX                            XOOO                OOXXXXXXXXXXXXX                                                         O               XOXXXXXXXXXXX',
     'XXXOX                           XOOOOOOO   XXXXXXXXXX    O    O    O      OOOOO    OOOO    OOOO    OOOO                  XXXO                XOXXXXXXXXXXX',
     'XXXOX      XXXXOOOXXXOOOOOXXXXXXXXXXO          OOO                        XXXXX    XXXX    XXXX    XXXX                  O                   XOXXXXXXXXXXX',
-    'XXXOX      O                          O                                                                              XXXO                    XOXXXXXXXXXXX',
-    'XXXOX P    O                           XXXXX          O    O    O    O                                               O                       XOXXXXXXXXXXX',
+    'XXXOX                                 O                                                                              XXXO                    XOXXXXXXXXXXX',
+    'XXXOX P                                XXXXX          O    O    O    O                                               O                       XOXXXXXXXXXXX',
     'XXXXXXXXXXXXXXXXX                           OXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOXOOOOOOOXOOOOOOOXOOOOOOOXXXXXXXXXXX                        XXXXXXXXXXXXX',
     ]
 
