@@ -12,15 +12,12 @@ start_time = 0
 t = 0
 
 
-while 1 and Player !=0:
+while 1 and Player != 0:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
+
     #level1.run()
     level1.update(screen,level1)
     pygame.display.update()

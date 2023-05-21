@@ -4,3 +4,10 @@ X : 27.99 secondes
 X : 4.82 secondes 
 X : 3.91 secondes 
 X : 4.37 secondes 
+X : 9.70 secondes 
+X : 1.41 minutes 
+X : 1.59 minutes 
+X : 0.01 secondes 
+X : 0.03 secondes 
+X : 0.00 secondes 
+X : -1683981.75 secondes 
