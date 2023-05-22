@@ -20,12 +20,14 @@ class Player(pygame.sprite.Sprite):
         self.cooldown = 0
         self.vie = 10
 
+
         # donnée du saut
         self.saut = False
         self.positionInit = 0
         self.angle = 20
         self.angleradian = math.pi * self.angle / 180
         self.t = 0
+        self.espace = False
         self.stop_traj = False
 
         # donné du temps pour modifié l'angle
@@ -63,18 +65,20 @@ class Player(pygame.sprite.Sprite):
                 self.temps = self.end_time - self.start_time
                 self.temps = self.temps / 75
                 self.saut = True
+                self.espace = True
                 self.positionInit = self.rect.y
 
         if self.stop_traj == False:
             self.saut = False
             self.direction.x, self.direction.y, self.t = 0, 0, 0
 
-        if self.saut:
+        if self.saut and self.espace:
             for i in range(int(self.temps)):
-                self.angle += 5
-                if self.angle > 60:
-                    self.angle = 60
-                #print(self.angle)
+                    self.angle += 5
+                    if self.angle > 60:
+                        self.angle = 60
+                    #print(self.angle)
+
 
             if self.g:
                 self.angleradian = math.pi - math.pi * self.angle / 180
@@ -96,4 +100,5 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.direction.x
         self.rect.y -= self.direction.y
 
+        #print("dx : ", self.direction.x, "dy : ",self.direction.y)
         #print("x : ",self.rect.x,'// y : ',self.rect.y)

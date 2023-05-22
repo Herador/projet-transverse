@@ -4,14 +4,20 @@ Lvl_Tuto_map = [
     'XXXOX                                         XOXX',
     'XXXOX                                         XOXX',
     'XXXOX                                         XOXX',
+    'XXXOX                                         XOXX',
+    'XXXOX                                         XOXX',
+    'XXXOX                                         XOXX',
+    'XXXOX                                         XOXX',
+    'XXXOX                                         XOXX',
+    'XXXOX                                         XOXX',
     'XXXOX                                    D    XOXX',
     'XXXOX        OXXXXX                    XXXX   XOXX',
     'XXXOX                                  O      XOXX',
     'XXXOX                                  O      XOXX',
     'XXXOX        X        X      XOOOXOOOXXO      XOXX',
     'XXXOX P  XOOO OOOOOOOO      O                 XOXX',
-    'XXXXXXXOO                OXO                  XXXX',
-]
+    'XXXXXXXOO                XXO                  XXXX',
+    ]
 
 Lvl_1_map = [
     'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
@@ -34,6 +40,8 @@ Lvl_1_map = [
     'XXXXXXXXXXXXXXXXX                           OXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOXOOOOOOOXOOOOOOOXOOOOOOOXXXXXXXXXXX                        XXXXXXXXXXXXX',
     ]
 
+
+
 Lvl_2_map = [
     "X                                                            XXXXXXXXXXX",
     "X                                                            XXXXXXXXXXX",
@@ -47,18 +55,18 @@ Lvl_2_map = [
     "X      O      OOOOOOOOX          O                           XXXXXXXXXXX",
     "X      OX   OOO       O          O                           XXXXXXXXXXX",
     "X      X      O       O          O                           XXXXXXXXXXX",
-    "X       X    OO       O          OXOO       OOOOOOOOOOOOOOOOOXXXXXXXXXXX",
+    "X       X    OO       O    P     OXOO       OOOOOOOOOOOOOOOOOXXXXXXXXXXX",
     "X     OOO    XO       OOOOOXO       OOOXXX  O                XXXXXXXXXXX",
     "X       X     O       O     O               O                XXXXXXXXXXX",
     "X            XO       O     O               O                XXXXXXXXXXX",
-    "X  P    XOOOOOO       O     OOOOOXOOXXXOOOOOO                XXXXXXXXXXX",
+    "X       XOOOOOO       O     OOOOOXOOXXXOOOOOO                XXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
 
 Lvl_3_map = [
-    "XXXXXXXXXXXXXXXX                XXXXXXXXXXXXXXXXXXXXXXXXXXX ",
-    "XXXXXXXXXXXXXXXX                XXXXXXXXXXXXXXXXXXXXXXXXXXX ",
-    "X                               OXXXXXXXXXXXXXXXXXXXXXXXXXX ",
+    "XXXXXXXXXXXXXXXX                XXXXXXXXXXXXXXXXXXXXXXXXXXX       ",
+    "XXXXXXXXXXXXXXXX                XXXXXXXXXXXXXXXXXXXXXXXXXXX       ",
+    "X                               OXXXXXXXXXXXXXXXXXXXXXXXXXX      ",
     "X                   O           OOOOXXOXXXXXXXXXXXXXXXXXXXX",
     "X                X   X          O     OXXXXXXXXXXXXXXXXXXXX",
     "X              OOOO  O    X   XXX      XXXOOOXXXXXXXXXXXXXX",
@@ -72,8 +80,29 @@ Lvl_3_map = [
     "XX X  O      XX       X                                   X",
     "XOOOOOO      XX        X                                  X",
     "XXXXXXX      XX         OX   O     O     O   O    O       X",
-    "XXXXXXX   P  XX         XXX  O     O   XOOXXXXXXXXO       X",
+    "XXXXXXX    P XX         XXX  O     O   XOOXXXXXXXXO       X",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+]
+
+Lvl_4_map= [
+    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX         XXXXXXXXXXXXXXXXXXXX",
+    "XXXXXXXXXXXXXXXXX                                       D X",
+    "X                                    OOOO    XXXXXXXXXXXXXX",
+    "X                   O                OOXXXXXXXXXXXXXXXXXXXX",
+    "XO               XXXXXXX          XXXXXXXXXXXXXXXXXXXXXXXXX",
+    "XXXXX                     XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "X              OOOOOOOOOOO      XXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "X              O                             XXXXXXXXXXXXXX",
+    "XXXXXXXX                     O                            X",
+    "XO                           O             XXXX           X",
+    "XO           OOXXXXXXXXXXXXXXX                  OO        X",
+    "XXXXXXXXXXXXXX                   OO             OO        X",
+    "X                   OO            XXXXXXXXXXXXXXXXXX      X",
+    "X               XXXXXXXXXX                                X",
+    "XO                                                        X",
+    "XO    P                     XX                            X",
+    "XXXXXXXXXXXXXXX             OOOOOOOOOOOOOOOOXXXXXXXXXXXXXXX",
+    "XXXXXXXXXXXXXXX             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
 tile_size = 48
 screen_width = 1500

@@ -26,8 +26,10 @@ class drapeau(pygame.sprite.Sprite):
         super().__init__()
 
         # Initialise l'image du drapeau
-        #self.image = pygame.Surface((size,size))
+
         self.image = pygame.image.load("arrive.png")
+        #self.image = pygame.Surface((size,size))
+        #self.image.fill('black')
         # Récupère le rectangle englobant l'image.
         self.rect = self.image.get_rect(center=position)
 
